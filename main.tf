@@ -10,4 +10,8 @@ resource "aws_instance" "oidc-cicd-pipeline" {
                 sudo systemctl start apache2
                 sudo bash -c 'echo your very first web server building pipeline > /var/www/html/index.html'
                 EOF
+
+    tags = {
+      Name = "oidc-cicd-pipeline"
+    }
 }
