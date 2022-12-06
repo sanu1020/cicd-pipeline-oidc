@@ -1,0 +1,26 @@
+name: AWS cicd workflow
+
+on:
+  push
+
+permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::426371584621:role/creation-ec2
+          aws-region: us-east-1
+      - name: terraform initiate
+        run: terraform init
+      - name: terraform validate
+        run: terraform validate
+      - name: terraform apply
+        run: terraform apply --auto-approve
